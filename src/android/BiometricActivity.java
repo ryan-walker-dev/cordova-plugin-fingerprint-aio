@@ -176,6 +176,13 @@ public class BiometricActivity extends AppCompatActivity {
                 }
                 finishWithError(PluginError.BIOMETRIC_DISMISSED);
                 break;
+            case BiometricPrompt.ERROR_NO_BIOMETRICS:
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P && mPromptInfo.isDeviceCredentialAllowed()) {
+                    showAuthenticationScreen();
+                    return;
+                }
+                finishWithError(errorCode, errString.toString());
+                break;
             case BiometricPrompt.ERROR_LOCKOUT:
                 finishWithError(PluginError.BIOMETRIC_LOCKED_OUT.getValue(), errString.toString());
                 break;
